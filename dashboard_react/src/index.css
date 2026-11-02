@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { 
+    box-sizing: border-box; 
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  body {
+    @apply bg-dark-950 text-slate-100 font-sans antialiased overflow-x-hidden;
+    margin: 0;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.18) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(220, 38, 38, 0.12) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.5) 0px, transparent 100%);
+    background-attachment: fixed;
+  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-dark-950; }
+  ::-webkit-scrollbar-thumb { @apply bg-slate-700/60 rounded-full hover:bg-slate-600; }
+}
+
+@layer components {
+  /* Modern Glass Card */
+  .card {
+    @apply bg-dark-900/70 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-2xl transition-all duration-300;
+  }
+  .card-hover {
+    @apply hover:border-blue-500/30 hover:shadow-glow-sm hover:-translate-y-0.5;
+  }
+
+  /* Sleek badges */
+  .badge-major {
+    @apply inline-flex items-center gap-1.5 bg-red-950/80 text-red-400 border border-red-500/30 text-xs font-semibold px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(239,68,68,0.25)];
+  }
+  .badge-minor {
+    @apply inline-flex items-center gap-1.5 bg-amber-950/80 text-amber-300 border border-amber-500/30 text-xs font-semibold px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(245,158,11,0.2)];
+  }
+  .badge-acked {
+    @apply inline-flex items-center gap-1.5 bg-emerald-950/80 text-emerald-400 border border-emerald-500/30 text-xs font-semibold px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(16,185,129,0.2)];
+  }
+  .badge-pending {
+    @apply inline-flex items-center gap-1.5 bg-slate-800/80 text-slate-300 border border-slate-700 text-xs font-semibold px-2.5 py-1 rounded-full;
+  }
+  .badge-sent {
+    @apply inline-flex items-center gap-1.5 bg-blue-950/80 text-blue-300 border border-blue-500/30 text-xs font-semibold px-2.5 py-1 rounded-full shadow-[0_0_12px_rgba(59,130,246,0.2)];
+  }
+
+  /* High-end interactive buttons */
+  .btn-primary {
+    @apply bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold py-2.5 px-5 rounded-xl transition-all duration-200 text-sm shadow-lg shadow-red-950/60 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-secondary {
+    @apply bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-medium py-2 px-4 rounded-xl transition-all duration-200 text-sm border border-white/10 active:scale-95;
+  }
+  .btn-glow-blue {
+    @apply bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-2 px-4 rounded-xl transition-all duration-200 text-sm shadow-md shadow-blue-900/40 active:scale-95;
+  }
+}
+
+/* Tactical HUD overlays */
+.hud-corner-tl {
+  position: absolute; top: 8px; left: 8px; width: 14px; height: 14px;
+  border-top: 2px solid rgba(59, 130, 246, 0.7); border-left: 2px solid rgba(59, 130, 246, 0.7);
+}
+.hud-corner-tr {
+  position: absolute; top: 8px; right: 8px; width: 14px; height: 14px;
+  border-top: 2px solid rgba(59, 130, 246, 0.7); border-right: 2px solid rgba(59, 130, 246, 0.7);
+}
+.hud-corner-bl {
+  position: absolute; bottom: 8px; left: 8px; width: 14px; height: 14px;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.7); border-left: 2px solid rgba(59, 130, 246, 0.7);
+}
+.hud-corner-br {
+  position: absolute; bottom: 8px; right: 8px; width: 14px; height: 14px;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.7); border-right: 2px solid rgba(59, 130, 246, 0.7);
+}
+
+/* Leaflet map customization */
+.leaflet-container { 
+  @apply rounded-2xl overflow-hidden border border-white/10; 
+  background: #060911 !important;
+}
+.leaflet-control-attribution { display: none !important; }
+.leaflet-popup-content-wrapper {
+  background: rgba(10, 15, 29, 0.95) !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(12px) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6) !important;
+}
+.leaflet-popup-tip {
+  background: rgba(10, 15, 29, 0.95) !important;
+}

@@ -1,0 +1,55 @@
+# Secrets - NEVER commit
+.env
+*.env
+!.env.example
+
+# Backups
+*.bak
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+venv/
+env/
+.venv/
+.pytest_cache/
+
+# Node / React Frontend
+node_modules/
+**/node_modules/
+dashboard_react/node_modules/
+dashboard_react/dist/
+
+# YOLOv8 training runs (exclude huge runs, keep trained weights)
+model/runs/*
+!model/runs/accident_model/
+!model/runs/accident_model/weights/
+!model/runs/accident_model/weights/best.pt
+
+# Media & Datasets (can be large)
+media/snapshots/
+media/clips/
+media/videos/
+data/raw/
+data/raw_roboflow/
+data/processed/
+*.zip
+*.tar.gz
+
+# Database file
+*.db
+*.sqlite3
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

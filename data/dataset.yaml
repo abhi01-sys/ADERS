@@ -1,0 +1,11 @@
+# YOLOv8 Dataset Descriptor
+# Note: Using absolute path prevents Ultralytics from looking in ../datasets
+path: "C:/Users/Abhishek/OneDrive/Documents/V sem/ADERS/data/processed"
+train: train/images
+val: val/images
+test: test/images
+
+nc: 2
+names:
+  0: moderate
+  1: severe

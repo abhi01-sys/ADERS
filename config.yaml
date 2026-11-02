@@ -1,0 +1,89 @@
+# ============================================================
+# ADERS — Application Configuration
+# All tunable parameters live here. No magic numbers in code.
+# ============================================================
+
+app:
+  name: "ADERS - Accident Detection & Emergency Response"
+  version: "0.1.0"
+  debug: false
+
+# ── Detection ───────────────────────────────────────────────
+detection:
+  model_path: "model/runs/accident_model/weights/best.pt"  # path to fine-tuned weights
+  confidence_threshold: 0.40      # minimum YOLO confidence to filter pre-crash false alarms (Option 1)
+  iou_threshold: 0.50             # NMS IoU threshold
+  frame_confirmation_count: 10    # accident must persist for 10 frames (~1s post-impact) to confirm physical collision
+  input_size: 640                 # YOLO input resolution (pixels)
+  tracker: "bytetrack.yaml"       # built-in ByteTrack config
+
+# ── Severity Estimation ─────────────────────────────────────
+severity:
+  major_iou_threshold: 0.30       # vehicle overlap (IoU) to call it "major"
+  major_vehicle_count: 3          # ≥ N vehicles involved → major
+  speed_drop_threshold: 0.60      # sudden speed drop > 60% of prev speed → major
+
+# ── Alert Cooldown ──────────────────────────────────────────
+alerts:
+  cooldown_minutes: 5             # suppress duplicate alerts for same camera within X min
+  ack_timeout_seconds: 30         # escalate to voice call if no ack after 30s
+  max_retries: 3                  # Twilio send retry attempts on failure
+  maps_base_url: "https://www.google.com/maps?q="
+
+# ── Emergency Contacts ──────────────────────────────────────
+# Format: { name, role, phone, receive_sms, receive_call }
+contacts:
+  - name: "City Ambulance"
+    role: "ambulance"
+    phone: "+91XXXXXXXXXX"        # replace in your .env or here (non-secret)
+    receive_sms: true
+    receive_call: true
+
+  - name: "Traffic Police Control"
+    role: "police"
+    phone: "+91XXXXXXXXXX"
+    receive_sms: true
+    receive_call: true
+
+  - name: "General Hospital ER"
+    role: "hospital"
+    phone: "+91XXXXXXXXXX"
+    receive_sms: true
+    receive_call: false
+
+  - name: "Admin / Family"
+    role: "admin"
+    phone: "+91XXXXXXXXXX"
+    receive_sms: true
+    receive_call: true
+
+# ── Camera Sources ──────────────────────────────────────────
+cameras:
+  - id: "cam_001"
+    label: "Highway NH-44 KM 12"
+    source: 0                     # 0 = webcam; replace with RTSP URL or file path
+    location_lat: 28.6139
+    location_lon: 77.2090
+
+# ── Database ────────────────────────────────────────────────
+database:
+  url: "sqlite:///aders.db"
+
+# ── Media Storage ───────────────────────────────────────────
+media:
+  snapshot_dir: "media/snapshots"
+  clip_dir: "media/clips"
+  clip_duration_seconds: 10
+
+# ── Dataset Split (used by scripts/split_dataset.py) ────────
+dataset:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  random_seed: 42               # fixed seed — never change after first split
+  classes:
+    - "accident"
+    - "non-accident"            # optional negative class if dataset includes it
+

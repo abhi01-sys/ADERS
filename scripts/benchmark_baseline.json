@@ -1,0 +1,43 @@
+{
+  "config": {
+    "imgsz": 416,
+    "conf_threshold": 0.3,
+    "confirmation_frames": 4,
+    "skip_frames": 2
+  },
+  "results": [
+    {
+      "clip": "Town03_clear (accident expected)",
+      "total_frames": 290,
+      "processed_frames": 145,
+      "incidents_fired": 0,
+      "avg_capture_ms": 6.3,
+      "avg_inference_ms": 41.7,
+      "avg_draw_ms": 21.7,
+      "avg_encode_ms": 0.8,
+      "effective_fps": 20.5
+    },
+    {
+      "clip": "Town03_wet (accident expected)",
+      "total_frames": 362,
+      "processed_frames": 181,
+      "incidents_fired": 1,
+      "avg_capture_ms": 6.2,
+      "avg_inference_ms": 24.9,
+      "avg_draw_ms": 25.0,
+      "avg_encode_ms": 0.7,
+      "effective_fps": 31.5
+    },
+    {
+      "clip": "clip_03 (short clip)",
+      "total_frames": 240,
+      "processed_frames": 120,
+      "incidents_fired": 1,
+      "avg_capture_ms": 0.4,
+      "avg_inference_ms": 27.0,
+      "avg_draw_ms": 27.7,
+      "avg_encode_ms": 0.8,
+      "effective_fps": 35.4
+    }
+  ]
+}
