@@ -1,0 +1,15 @@
+.git
+.env
+*.env
+__pycache__
+*.pyc
+*.pyo
+venv
+.venv
+dashboard_react/node_modules
+data/processed
+data/raw
+data/raw_roboflow
+*.zip
+*.tar.gz
+media/videos

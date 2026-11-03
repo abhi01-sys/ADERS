@@ -62,16 +62,21 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Allow React (localhost:5173 / 3000) and Streamlit (localhost:8501)
+import os
+# Allow React (localhost:5173 / 3000) and Streamlit (localhost:8501), plus cloud domains
+cors_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:8501",
+    "http://127.0.0.1:8501",
+    "http://localhost:3000",
+]
+if os.getenv("RENDER") or os.getenv("ALLOW_ALL_ORIGINS", "true").lower() == "true":
+    cors_origins = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:8501",
-        "http://127.0.0.1:8501",
-        "http://localhost:3000",
-    ],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -86,17 +91,26 @@ clips_dir.mkdir(parents=True, exist_ok=True)
 app.mount("/snapshots", StaticFiles(directory=str(snapshots_dir)), name="snapshots")
 app.mount("/clips",     StaticFiles(directory=str(clips_dir)),     name="clips")
 
-# Register routers
+# Register routers (both with and without /api prefix for dev + prod unified support)
 app.include_router(incidents_router)
+app.include_router(incidents_router, prefix="/api")
 app.include_router(stream_router)
 
 
 @app.get("/ping", tags=["health"])
+@app.get("/api/ping", tags=["health"])
 def ping():
     return {"status": "ok", "service": "ADERS API"}
 
 
+# Serve React Frontend Build if available (for unified Render deployment)
+frontend_dist = ROOT / "dashboard_react" / "dist"
+if frontend_dist.exists() and (frontend_dist / "index.html").exists():
+    app.mount("/", StaticFiles(directory=str(frontend_dist), html=True), name="frontend")
+
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("api.main:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("api.main:app", host="0.0.0.0", port=port, reload=True)
 

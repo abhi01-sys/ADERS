@@ -1,7 +1,13 @@
 import { useEffect, useRef, useCallback } from 'react'
 import toast from 'react-hot-toast'
 
-const WS_URL = 'ws://localhost:8000/ws'
+const getWsUrl = () => {
+  if (typeof window === 'undefined') return 'ws://localhost:8000/ws'
+  const isDev = window.location.port === '5173'
+  if (isDev) return 'ws://localhost:8000/ws'
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+  return `${protocol}//${window.location.host}/ws`
+}
 
 /**
  * Custom hook that opens a WebSocket to the FastAPI backend.
@@ -16,7 +22,7 @@ export function useWebSocket(onEvent) {
   const connect = useCallback(() => {
     if (!mountedRef.current) return
     try {
-      const ws = new WebSocket(WS_URL)
+      const ws = new WebSocket(getWsUrl())
       wsRef.current = ws
 
       ws.onopen = () => {
